@@ -51,6 +51,12 @@ AUTO_LEAVING_ASSISTANT = bool(getenv("AUTO_LEAVING_ASSISTANT", False))
 PRIVACY_LINK = getenv("PRIVACY_LINK", "https://files.catbox.moe/jyeumn.jpg")
 
 
+# 🔥 NEW: MUSIC API CONFIGURATION (Added this for youtube.py)
+# Default URL maine aapki wali daal di hai
+MUSIC_API_URL = getenv("MUSIC_API_URL", "https://fastapi2-znj2.onrender.com")
+MUSIC_API_KEY = getenv("MUSIC_API_KEY", None)
+
+
 # Get this credentials from https://developer.spotify.com/dashboard
 SPOTIFY_CLIENT_ID = getenv("SPOTIFY_CLIENT_ID", None)
 SPOTIFY_CLIENT_SECRET = getenv("SPOTIFY_CLIENT_SECRET", None)
@@ -118,12 +124,5 @@ if SUPPORT_GROUP:
     if not re.match("(?:http|https)://", SUPPORT_GROUP):
         raise SystemExit(
             "[ERROR] - Your SUPPORT_GROUP url is wrong. Please ensure that it starts with https://"
-        )
-
-
-
-
-
-
-
-
+)
+        
