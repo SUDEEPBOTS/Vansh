@@ -1,5 +1,8 @@
 import asyncio
 import importlib
+import threading
+import os
+from flask import Flask
 
 from pyrogram import idle
 from pytgcalls.exceptions import NoActiveGroupCall
@@ -12,6 +15,23 @@ from RessoMusic.plugins import ALL_MODULES
 from RessoMusic.utils.database import get_banned_users, get_gbanned
 from config import BANNED_USERS
 
+# ─────────────────────────────
+# 🌐 FLASK FAKE SERVER SETUP
+# ─────────────────────────────
+web_app = Flask(__name__)
+
+@web_app.route('/', methods=['GET', 'HEAD'])
+def home():
+    return "Bot is Alive!", 200
+
+def run_flask():
+    port = int(os.environ.get("PORT", 8080))
+    # Threading ke andar run kar rahe hain
+    web_app.run(host="0.0.0.0", port=port)
+
+# ─────────────────────────────
+# 🤖 BOT MAIN LOGIC
+# ─────────────────────────────
 
 async def init():
     if (
@@ -59,4 +79,11 @@ async def init():
 
 
 if __name__ == "__main__":
+    # Flask Server ko alag thread me start karna zaroori hai
+    flask_thread = threading.Thread(target=run_flask)
+    flask_thread.daemon = True
+    flask_thread.start()
+    
+    # Ab Asyncio loop chalega
     asyncio.get_event_loop().run_until_complete(init())
+    
